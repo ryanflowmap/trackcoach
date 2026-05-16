@@ -1,0 +1,23 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Users can read/write their own user doc
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      // Admin (your UID) can read/write all user docs
+      allow read, write: if request.auth != null && request.auth.token.email == 'ryan.flowmap@gmail.com';
+    }
+
+    // Notifications (new user requests) - any authenticated user can create
+    match /notifications/{id} {
+      allow create: if request.auth != null;
+      allow read, write: if request.auth != null && request.auth.token.email == 'ryan.flowmap@gmail.com';
+    }
+
+    // All other data - approved users only
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
