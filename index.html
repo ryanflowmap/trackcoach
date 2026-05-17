@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -195,6 +196,7 @@ label{font-size:12px;color:var(--text2);display:block;margin-bottom:4px}
       <div class="fg"><label>Your Name</label><input type="text" id="rg-name" placeholder="Coach Name"></div>
       <div class="fg"><label>Email</label><input type="email" id="rg-email" placeholder="coach@school.edu" autocomplete="email"></div>
       <div class="fg"><label>Password</label><input type="password" id="rg-pass" placeholder="Choose a password (min 6 chars)" autocomplete="new-password"></div>
+     <div class="g-recaptcha" data-sitekey="6Ld_4u0sAAAAAJHnQ57ypmEtM4Dsnln3hU5q_4Pv"></div>
       <button class="btn bg" style="width:100%;margin-top:4px" onclick="doRegister()">Request Access</button>
       <div id="rg-msg"></div>
     </div>
