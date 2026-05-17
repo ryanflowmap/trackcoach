@@ -1,0 +1,29 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isApproved() {
+      return request.auth != null &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.status == 'approved';
+    }
+    function isAdmin() {
+      return request.auth != null &&
+        request.auth.token.email == 'ryan.flowmap@gmail.com';
+    }
+
+    match /users/{userId} {
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow read, update, delete: if isAdmin();
+    }
+    match /requestLog/{id} {
+      allow create: if request.auth != null;
+      allow read, delete: if isAdmin();
+    }
+    match /runners/{id} { allow read, write: if isApproved(); }
+    match /meets/{id} { allow read, write: if isApproved(); }
+    match /assignments/{id} { allow read, write: if isApproved(); }
+    match /results/{id} { allow read, write: if isApproved(); }
+  }
+}
